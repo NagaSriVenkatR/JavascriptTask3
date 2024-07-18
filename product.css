@@ -1,0 +1,17 @@
+span{
+  color: red;
+}
+.col-md-4{
+  margin-top: 100px;
+  background-color: lightsteelblue !important;
+  padding: 40px !important;
+  border-radius: 10px !important;
+  box-shadow: 5px 5px 20px slateblue;
+}
+.form-floating{
+  margin-bottom: 20px !important;
+}
+.form-control{
+  box-shadow: none !important;
+}
+
