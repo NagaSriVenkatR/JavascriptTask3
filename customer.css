@@ -1,0 +1,27 @@
+.row{
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 20px !important;
+}
+form{
+  background-color: lightgoldenrodyellow !important;
+}
+.form-control{
+  box-shadow: none !important;
+ } 
+ .form-select{
+  box-shadow: none !important;
+ }
+.btn-primary{
+  background-color: blueviolet !important;
+  float: right;
+}
+
+.add{
+  margin-top: 15px;
+}
+span{
+  display: block;
+  height: 20px !important;
+  color: red;
+}
