@@ -1,18 +1,21 @@
-document.addEventListener("DOMContentLoaded",function () {
-    fetch(`http://localhost:8080/api/product/add/product`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(),
-    })
+document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  let id = urlParams.get("id");
+  if(id){
+    fetch("http://localhost:8080/api/product/add/product/${id}")
       .then((response) => response.json())
-      .catch((error) => console.error("Error:", error));
-  document.getElementById("myform").addEventListener("submit",myfunction);
-})
-function loadproducts() {
-
-}
+      .then((data) => {
+        const select = document.getElementById("product");
+        data.array.forEach((product) => {
+          let option = document.createElement("option");
+          option.value = product.productname;
+          option.textContent = product.productname;
+          select.appendChild(option);
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+});
 function myfunction(event) {
   event.preventDefault();
   let customerName = document.getElementById("name").value;
@@ -65,36 +68,103 @@ function myfunction(event) {
     gendererr.innerHTML = "Gender is required";
     valid = false;
   }
-    let obj = {
-      customerName: customerName,
-      email: email,
-      mobileNo: mobileNo,
-      address: address,
-      date: date,
-      gender: gender,
-    };
-    console.log(obj);
-    fetch(`http://localhost:8080/api/invoice/buy/product`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(obj),
+  let obj = {
+    customerName: customerName,
+    email: email,
+    mobileNo: mobileNo,
+    address: address,
+    date: date,
+    gender: gender,
+    customerProduct: [],
+  };
+  console.log(obj);
+  fetch('http://localhost:8080/api/invoice/buy/product', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(obj),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((data) => {
+          throw new Error(
+            `API Error: ${data.error.code} - ${data.error.reason}`
+          );
+        });
+      }
     })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json()
-          .then((data) => {
-            throw new Error(
-              `API Error: ${data.error.code} - ${data.error.reason}`
-            );
-          });
-        }
-        
-      })
-      .then((data) => console.log(data))
-      .catch((Error) => console.error("Error", Error));
-    document.getElementById("myform").reset();
-  }
-  
+    .then((data) => {
+      console.log(data);
+      addToTable(data);
+      document.getElementById("myform").reset();
+    })
+    .catch((Error) => console.error("Error", Error));
+}
+function addToTable(data) {
+  let tbody = document.getElementById("tbody");
 
+  // Check if data and products exist
+  if (
+    !data ||
+    !data.products ||
+    !Array.isArray(data.products) ||
+    data.products.length === 0
+  ) {
+    console.error(
+      "Unexpected API response format or empty products array:",
+      data
+    );
+    return;
+  }
+
+  // Assume data.products is an array and use the first item if available
+  let customerProduct = data.customerProduct[0]; // Ensure data.products[0] exists
+
+  let options = `
+    <option value="Samsung S20">Samsung S20</option>
+    <option value="Lenovo">Lenovo</option>
+    <option value="Samsung M31s">Samsung M31s</option>
+    <option value="Hp laptop 15s">Hp laptop 15s</option>
+    <option value="Dell Inspiron 15">Dell Inspiron 15</option>
+    <option value="Iphone 15 Pro Max">Iphone 15 Pro Max</option>
+    <option value="Acer aspire 5">Acer aspire 5</option>
+    <option value="Iphone 15">Iphone 15</option>
+  `;
+
+  // Create a new row and set its inner HTML
+  let newRow = tbody.insertRow();
+  newRow.innerHTML = `
+    <tr class='data'>
+      <td>
+        <select name="productname" class="form-select">
+          <option value="">select a product</option>
+          ${options}
+        </select>
+      </td>
+      <td><input type='number' class='productquantity' value='${
+        customerProduct.productquantity || 0
+      }' /></td>
+      <td>${customerProduct.price || 0}</td>
+      <td>${(customerProduct.productquantity || 0) * (customerProduct.price || 0)}</td>
+      <td class='cont'>
+        <button class="btn btn-success me-3" onclick='editData(${
+          data.id
+        })'>Edit</button>
+        <button class="btn btn-danger" onclick='deleteData(${
+          data.id
+        })'>Delete</button>
+      </td>
+    </tr>
+  `;
+}
+
+function editData(id) {
+  console.log(`Edit product with ID: ${id}`);
+  
+}
+
+function deleteData(id) {
+  console.log(`Delete product with ID: ${id}`);
+
+}
