@@ -10,10 +10,10 @@
 </head>
 <body>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
       <form action="" class="row" id="myform">
         <h1 class="text-center display-3 mb-4">Customer Details</h1>
-        <div class="col-md-6"> 
+        <div class="col-md-4"> 
           <div class="form-group form-floating">
             <input class="form-control" id="name" placeholder="enter your name" type="text">
             <label for="floatingInput">Name</label>
@@ -24,18 +24,20 @@
             <label for="floatingInput">Email</label>
             <span id="emailerror"></span>
           </div>
+        </div>
+        <div class="col-md-4">
           <div class="form-group form-floating">
             <input class="form-control" id="Address" placeholder="enter your address" type="text">
             <label for="floatingInput">Address</label>
             <span id="addresserror"></span>
           </div>
-        </div>
-        <div class="col-md-6 column"> 
-          <div class="form-group form-floating">
+           <div class="form-group form-floating">
             <input class="form-control" id="phonenumber" placeholder="enter your phonenumber" type="tel">
             <label for="floatingInput">Phonenumber</label>
             <span id="phonenumbererror"></span>
           </div>
+        </div>
+        <div class="col-md-4">  
           <div class="form-group form-floating">
             <input class="form-control" type="date" id="Date" placeholder="enter valid date">
             <label for="floatingInput">Date</label>
@@ -57,19 +59,19 @@
           </div>
       </form>
     </div>
-    <div class="col-md-8 mt-5">
+    <div class="col-md-10 mt-5">
       <table class="table table-bordered text-center">
         <thead>
           <tr>
-            <th>Product</th>
+            <th>S.No</th>
+            <th colspan="2">Product</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Total</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="tbody">
-          
+        <tbody id="tbody">  
         </tbody>
       </table>
     </div>

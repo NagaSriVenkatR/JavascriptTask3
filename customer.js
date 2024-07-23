@@ -1,20 +1,5 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const urlParams = new URLSearchParams(window.location.search);
-  let id = urlParams.get("id");
-  if(id){
-    fetch("http://localhost:8080/api/product/add/product/${id}")
-      .then((response) => response.json())
-      .then((data) => {
-        const select = document.getElementById("product");
-        data.array.forEach((product) => {
-          let option = document.createElement("option");
-          option.value = product.productname;
-          option.textContent = product.productname;
-          select.appendChild(option);
-        });
-      })
-      .catch((error) => console.log(error));
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("myform").addEventListener("submit", myfunction);
 });
 function myfunction(event) {
   event.preventDefault();
@@ -78,7 +63,7 @@ function myfunction(event) {
     customerProduct: [],
   };
   console.log(obj);
-  fetch('http://localhost:8080/api/invoice/buy/product', {
+  fetch("http://localhost:8080/api/invoice/buy/product", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -101,70 +86,82 @@ function myfunction(event) {
     })
     .catch((Error) => console.error("Error", Error));
 }
+let counter = 1;
 function addToTable(data) {
   let tbody = document.getElementById("tbody");
+  let row = tbody.insertRow();
 
-  // Check if data and products exist
-  if (
-    !data ||
-    !data.products ||
-    !Array.isArray(data.products) ||
-    data.products.length === 0
-  ) {
-    console.error(
-      "Unexpected API response format or empty products array:",
-      data
-    );
-    return;
-  }
-
-  // Assume data.products is an array and use the first item if available
-  let customerProduct = data.customerProduct[0]; // Ensure data.products[0] exists
-
-  let options = `
-    <option value="Samsung S20">Samsung S20</option>
-    <option value="Lenovo">Lenovo</option>
-    <option value="Samsung M31s">Samsung M31s</option>
-    <option value="Hp laptop 15s">Hp laptop 15s</option>
-    <option value="Dell Inspiron 15">Dell Inspiron 15</option>
-    <option value="Iphone 15 Pro Max">Iphone 15 Pro Max</option>
-    <option value="Acer aspire 5">Acer aspire 5</option>
-    <option value="Iphone 15">Iphone 15</option>
+  row.innerHTML = `
+    <td>${counter++}</td>
+    <td colspan="2">
+      <select class="form-select select" name="productname">
+        <option value="">please select any product</option>
+        <option value="Samsung S20">Samsung S20</option>
+        <option value="Lenovo">Lenovo</option>
+        <option value="Samsung M31s">Samsung M31s</option>
+        <option value="Hp laptop 15s">Hp laptop 15s</option>
+        <option value="Dell Inspiron 15">Dell Inspiron 15</option>
+        <option value="Iphone 15 Pro Max">Iphone 15 Pro Max</option>
+        <option value="Acer aspire 5">Acer aspire 5</option>
+        <option value="Iphone 15">Iphone 15</option>
+      </select>
+    </td>
+    <td>
+      <input class="" type="number">
+    </td>
+    <td class='price'></td>
+    <td class='total'></td>
+    <td>
+      <button class="btn btn-warning" onclick="editData(${
+        counter - 1
+      })">Edit</button>
+      <button class="btn btn-danger" onclick="deleteData(${
+        counter - 1
+      })">Delete</button>
+    </td>
   `;
-
-  // Create a new row and set its inner HTML
-  let newRow = tbody.insertRow();
-  newRow.innerHTML = `
-    <tr class='data'>
-      <td>
-        <select name="productname" class="form-select">
-          <option value="">select a product</option>
-          ${options}
-        </select>
-      </td>
-      <td><input type='number' class='productquantity' value='${
-        customerProduct.productquantity || 0
-      }' /></td>
-      <td>${customerProduct.price || 0}</td>
-      <td>${(customerProduct.productquantity || 0) * (customerProduct.price || 0)}</td>
-      <td class='cont'>
-        <button class="btn btn-success me-3" onclick='editData(${
-          data.id
-        })'>Edit</button>
-        <button class="btn btn-danger" onclick='deleteData(${
-          data.id
-        })'>Delete</button>
-      </td>
-    </tr>
-  `;
+    row
+      .querySelector('select[name="productname"]')
+      .addEventListener("change", fetchProductDetails);
+    row
+      .querySelector('input[type="number"]')
+      .addEventListener("input", fetchProductDetails);
 }
+const productData = {
+  "Samsung S20": { price: 80000 },
+  "Lenovo": { price: 50000 },
+  "Samsung M31s": { price: 18000 },
+  "Hp laptop 15s": { price: 60000 },
+  "Dell Inspiron 15": { price: 55000 },
+  "Iphone 15 Pro Max": { price: 150000 },
+  "Acer aspire 5": { price: 54999 },
+  "Iphone 15": { price: 100000 }
+};
+function fetchProductDetails(event) {
+  const row = event.target.closest("tr");
+  const productName = row.querySelector("select[name='productname']").value;
+  const quantity = row.querySelector('input[type="number"]').value || 0;
 
+  if (productName && quantity) {
+    const product = productData[productName];
+    if (product) {
+      const price = product.price;
+      const total = price * quantity;
+
+      const priceCost = row.querySelector(".price");
+      const totalCost = row.querySelector(".total");
+
+      priceCost.textContent = price;
+      totalCost.textContent = total;
+    } else {
+      console.error("Product not found:", productName);
+    }
+  }
+}
 function editData(id) {
   console.log(`Edit product with ID: ${id}`);
-  
 }
 
 function deleteData(id) {
   console.log(`Delete product with ID: ${id}`);
-
 }
