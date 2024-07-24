@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("myform").addEventListener("submit", myfunction);
+  document.getElementById("addtocart").addEventListener("click",addtocart);
+  document.getElementById("clearcart").addEventListener("click",clearcart);
 });
 function myfunction(event) {
   event.preventDefault();
@@ -53,38 +55,18 @@ function myfunction(event) {
     gendererr.innerHTML = "Gender is required";
     valid = false;
   }
-  let obj = {
-    customerName: customerName,
-    email: email,
-    mobileNo: mobileNo,
-    address: address,
-    date: date,
-    gender: gender,
-    customerProduct: [],
-  };
-  console.log(obj);
-  fetch("http://localhost:8080/api/invoice/buy/product", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(obj),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        return response.json().then((data) => {
-          throw new Error(
-            `API Error: ${data.error.code} - ${data.error.reason}`
-          );
-        });
-      }
-    })
-    .then((data) => {
-      console.log(data);
-      addToTable(data);
-      document.getElementById("myform").reset();
-    })
-    .catch((Error) => console.error("Error", Error));
+      let obj = {
+        customerName: customerName,
+        email: email,
+        mobileNo: mobileNo,
+        address: address,
+        date: date,
+        gender: gender,
+      }; 
+       console.log(obj);
+       addToTable(obj);
+    
+   
 }
 let counter = 1;
 function addToTable(data) {
@@ -109,8 +91,8 @@ function addToTable(data) {
     <td>
       <input class="" type="number">
     </td>
-    <td class='price'></td>
-    <td class='total'></td>
+    <td id='price'></td>
+    <td id='total'></td>
     <td>
       <button class="btn btn-warning" onclick="editData(${
         counter - 1
@@ -148,15 +130,90 @@ function fetchProductDetails(event) {
       const price = product.price;
       const total = price * quantity;
 
-      const priceCost = row.querySelector(".price");
-      const totalCost = row.querySelector(".total");
+      const priceCost = row.querySelector("#price");
+      const totalCost = row.querySelector("#total");
 
       priceCost.textContent = price;
       totalCost.textContent = total;
+      updateBill();
     } else {
       console.error("Product not found:", productName);
     }
   }
+}
+function updateBill(){
+  const rows = document.querySelectorAll('#tbody tr');
+  let productPrice = 0;
+  rows.forEach(row => {
+    const total = parseFloat(row.querySelector('#total').textContent || 0);
+    productPrice += total;
+  });
+  const gst = productPrice*0.05;
+  const shopDiscount = productPrice*0.02;
+  const finalPrice = productPrice + gst - shopDiscount;
+  const productPriceElement = document.querySelector("#productprice");
+  const gstElement = document.querySelector("#gst");
+  const shopDiscountElement = document.querySelector("#shopdiscount");
+  const finalPriceElement =  document.querySelector("#finalprice");
+  if(productPriceElement){
+    productPriceElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${productPrice.toFixed(2)}`;
+  }
+  if(gstElement){
+    gstElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${gst.toFixed(2)}`;
+  }
+  if(shopDiscountElement){
+    shopDiscountElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${shopDiscount.toFixed(2)}`;
+  }
+  if(finalPriceElement){
+    finalPriceElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${finalPrice.toFixed(2)}`;
+  }
+}
+let tableData = [];
+function addtocart() { 
+  const rows = document.querySelectorAll('#tbody tr');
+  rows.forEach(row => {
+    const productName = row.querySelector('select[name="productname"]').value;
+    const quantity = row.querySelector('input[type= "number"]').value;
+    const price = row.querySelector('#price').textContent;
+    const total = row.querySelector('#total').textContent;
+    if (productName && quantity) {
+      tableData.push({productName,quantity,price,total});
+    }
+  });
+
+const customerData = {
+  customerName : document.getElementById("name").value,
+  email : document.getElementById("Email").value,
+  mobileNo : document.getElementById("phonenumber").value,
+  address : document.getElementById("Address").value,
+  date : document.getElementById("Date").value,
+  gender : document.getElementById("Gender").value,
+  customerProduct : tableData,
+}
+console.log(customerData);
+fetch("http://localhost:8080/api/invoice/buy/product", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(customerData),
+})
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((data) => {
+        throw new Error(`API Error: ${data.error.code} - ${data.error.reason}`);
+      });
+    }
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((Error) => console.error("Error", Error));
+  document.getElementById("myform").reset();
+}
+function cancel() {
+  document.getElementById("tbody").innerHTML = "";
+  updateBill();
 }
 function editData(id) {
   console.log(`Edit product with ID: ${id}`);

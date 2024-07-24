@@ -2,7 +2,6 @@
   justify-content: space-around !important;
   align-items: center !important;
   padding: 20px !important;
- 
 }
 form{
   background-color: lightgoldenrodyellow !important;
@@ -21,8 +20,19 @@ form{
 .add{
   margin-top: 15px;
 }
-span{
+.span{
   display: block;
   height: 20px !important;
   color: red;
+}
+span{
+  color: green;
+}
+.bill{
+  justify-content: end !important;
+  text-align: end !important;
+  
+}
+.cart{
+ text-align: center !important;
 }
