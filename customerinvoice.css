@@ -1,0 +1,15 @@
+.parent{
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin-top: 50px !important;
+}
+.customer{
+  text-align: left !important;
+}
+.bill{
+  text-align: left !important;
+}
+span{
+  color: green;
+}

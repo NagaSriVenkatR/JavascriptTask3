@@ -1,0 +1,10 @@
+.col{
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  overflow-x: auto !important;
+  margin: 50px !important;
+}
+body{
+  font-family:Amazon Ember;
+}

@@ -124,9 +124,6 @@ function addToTable(data) {
         <td id="price"></td>
         <td id="total"></td>
         <td class="d-flex">
-          <button class="btn btn-warning" onclick="editData(${
-            counter - 1
-          })">Edit</button>
           <button class="btn btn-danger ms-3" onclick="deleteData(${
             counter - 1
           })">Delete</button>
@@ -251,6 +248,7 @@ function addtocart() {
     })
     .then((data) => {
       console.log(data);
+      window.location.href = "customertable.html";
       document.getElementById("myform").reset();
       cleartable();
     })

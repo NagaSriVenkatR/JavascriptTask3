@@ -1,30 +1,38 @@
 body{
-  font-family: Kalnia Glaze;
+  font-family: Amazon Ember;
+
 }
 .row{
   justify-content: space-around !important;
   align-items: center !important;
   padding: 20px !important;
+ 
 }
+
 h1{
-  font-family: Kalnia Glaze;
+ 
+  font-weight: bold;
 }
 h5{
-  font-family: Kalnia Glaze;
+  font-weight: bold;
+  
 }
 form{
-  background-color: pink!important;
   border-radius: 15px !important;
-  box-shadow: 5px 5px 20px black !important;
+  background-color: lightgoldenrodyellow !important;
+  box-shadow: 1px 1px 10px black !important;
 }
+
 .form-control{
   box-shadow: none !important;
+   
  } 
  .form-select{
   box-shadow: none !important;
+  
  }
 .btn-primary{
-  background-color: blueviolet !important;
+  background-color: lightblue !important;
   float: right;
 }
 
@@ -44,5 +52,5 @@ span{
   text-align: end !important;
 }
 .cart{
- text-align: center !important;
+ text-align: end !important;
 }

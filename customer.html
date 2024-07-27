@@ -14,7 +14,7 @@
     <h1 class="text-center">Shopping </h1>
     <div class="col-md-8">
       <form action="" class="row" id="myform">
-        <h5 class="text-center mb-4">Customer Details</h5>
+        <h5 class="text-center">Customer Details</h5>
         <div class="col-md-4"> 
           <div class="form-group form-floating">
             <input class="form-control" id="name" placeholder="enter your name" type="text">
@@ -56,12 +56,11 @@
             <span class="span" id="gendererror"></span>
           </div>
         </div>
-         <div class="form-group form-floating add">
-            <button class="btn btn-primary " type="submit" onclick="myfunction(event)">Add Data</button>
-          </div>
+         
       </form>
     </div>
-    <div class="col-md-8 mt-5">
+    <div class="col-md-8 mt-5 product">
+       <button class="btn btn-primary mb-4 text-black fs-5" type="submit" onclick="myfunction(event)">Add Data</button>
       <table class="table table-bordered text-center">
         <thead class="table-success">
           <tr>
@@ -70,14 +69,17 @@
             <th>Quantity</th>
             <th>Price</th>
             <th>Total</th>
-            <th>Actions</th>
+            <th>Actions
+            </th>
           </tr>
+          
         </thead>
         <tbody id="tbody">  
+         
         </tbody>
       </table>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-8">
       <div class="row bill">
         <p class="">Product Price : <span  id="productprice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
         <p>GST(5%) : <span  id="gst"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
@@ -85,7 +87,7 @@
         <p>Final Price : <span id="finalprice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
       </div>
     </div>
-    <div class="col-md-10 cart justify-content-center align-tems-center">
+    <div class="col-md-8 cart">
       <button id="addtocart" class="btn btn-warning text-white"><i class="fa-solid fa-cart-shopping"></i> AddtoCart</button>
       <button id="clearcart" class="btn btn-danger">ClearCart</button>
     </div>
