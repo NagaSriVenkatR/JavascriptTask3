@@ -16,7 +16,7 @@ function tableAdd() {
         let sno = i + 1;
         table += "<tr class = 'data'>";
         table += "<td class=''>" + sno + "</td>";
-        table += "<td class=''>" + customer.id + "</td>";
+        // table += "<td class=''>" + customer.id + "</td>";
         table += "<td class=''>" + customer.customerName + "</td>";
         table += "<td class=''>" + customer.email + "</td>";
         table += "<td class=''>" + customer.mobileNo + "</td>";
