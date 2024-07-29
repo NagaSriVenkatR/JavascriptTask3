@@ -8,8 +8,8 @@
   text-align: left !important;
 }
 .bill{
-  text-align: left !important;
+  text-align: right !important;
 }
-span{
+.span{
   color: green;
 }

@@ -41,8 +41,6 @@ function tableAdd() {
       console.error("Error fetching data:", error);
     });
 }
-function customerEmail(customerEmail) {
-  window.location.href = `customerinvoice.html?Customer=(${encodeURIComponent(
-    customerEmail
-  )})`;
+function customerEmail(email) {
+  window.location.href = `customerinvoice.html?Customer=${email}`;
 }
