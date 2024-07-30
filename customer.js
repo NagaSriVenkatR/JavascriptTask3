@@ -191,10 +191,10 @@ function updateBill() {
   const gst = productPrice * 0.05;
   const shopDiscount = productPrice * 0.02;
   const finalPrice = productPrice + gst - shopDiscount;
-  const productPriceElement = document.querySelector("#productprice");
+  const productPriceElement = document.querySelector("#productPrice");
   const gstElement = document.querySelector("#gst");
-  const shopDiscountElement = document.querySelector("#shopdiscount");
-  const finalPriceElement = document.querySelector("#finalprice");
+  const shopDiscountElement = document.querySelector("#discount");
+  const finalPriceElement = document.querySelector("#finalPrice");
   if (productPriceElement) {
     productPriceElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${productPrice.toFixed(2)}`;
   }

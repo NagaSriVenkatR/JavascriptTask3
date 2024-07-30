@@ -11,10 +11,10 @@
 </head>
 <body>
   <div class="row parent">
-    <h1 class="text-center">Shopping </h1>
+    
     <div class="col-md-8">
       <form action="" class="row" id="myform">
-        <h5 class="text-center">Customer Details</h5>
+        <h1 class="text-center shopping">Shopping </h1>
         <div class="col-md-4"> 
           <div class="form-group form-floating">
             <input class="form-control" id="name" placeholder="enter your name" type="text">
@@ -60,16 +60,16 @@
       </form>
     </div>
     <div class="col-md-8 mt-5 product">
-       <button class="btn btn-primary mb-4 text-black fs-5" type="submit" onclick="myfunction(event)">Add Data</button>
-      <table class="table table-bordered text-center">
-        <thead class="table-success">
+       <button class="btn btn-primary mb-4 text-light fs-5" type="submit" onclick="myfunction(event)">Add Data</button>
+      <table class="table table-striped text-center" style="font-size: 18px;">
+        <thead class="" >
           <tr>
-            <th>S.No</th>
-            <th colspan="2">Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Actions
+            <th style="background-color: #b5a681;color: white;">S.No</th>
+            <th style="background-color: #b5a681;color: white;" colspan="2">Product</th>
+            <th style="background-color: #b5a681;color: white;">Quantity</th>
+            <th style="background-color: #b5a681;color: white;">Price</th>
+            <th style="background-color: #b5a681;color: white;">Total</th>
+            <th style="background-color: #b5a681;color: white;">Actions
             </th>
           </tr>
           
@@ -77,19 +77,53 @@
         <tbody id="tbody">  
          
         </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td class="text-center">Product Price :</td>
+            <td class="spaner" id="productPrice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00 </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td class="text-center">GST(5%) :</td>
+            <td class="spaner" id="gst"><i class="fa-solid fa-indian-rupee-sign"></i>0.00 </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td class="text-center">Shop Discount(2%) :</td>
+            <td class="spaner" id="discount"><i class="fa-solid fa-indian-rupee-sign"></i>0.00 </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td class="text-center">Final Price :</td>
+            <td class="spaner" id="finalPrice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00 </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
-    <div class="col-md-8">
+    <!-- <div class="col-md-8">
       <div class="row bill">
         <p class="">Product Price : <span  id="productprice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
         <p>GST(5%) : <span  id="gst"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
         <p>Shop Discount(2%) : <span id="shopdiscount"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span></p>
         <p>Final Price : <span id="finalprice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
       </div>
-    </div>
+    </div> -->
     <div class="col-md-8 cart">
-      <button id="addtocart" class="btn btn-warning text-white"><i class="fa-solid fa-cart-shopping"></i> AddtoCart</button>
-      <button id="clearcart" class="btn btn-danger">ClearCart</button>
+      <button id="addtocart" class="btn  text-white" style="background-color:#305b67;"><i class="fa-solid fa-cart-shopping"></i> AddtoCart</button>
+      <button id="clearcart" class="btn text-light" style="background-color:#2366ac;">ClearCart</button>
     </div>
   </div>
   <script src="customer.js"></script>

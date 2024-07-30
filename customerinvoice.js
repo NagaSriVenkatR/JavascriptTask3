@@ -66,10 +66,10 @@ function fetchCustomerInvoice(email) {
             row.innerHTML = ` 
                           <td>${index + 1}</td>
                           <td>${product.productName}</td>
-                          <td>${product.quantity}</td>
-                          <td><i class="fa-solid fa-indian-rupee-sign"></i>
+                          <td class="text-center"><i class="fa-solid fa-indian-rupee-sign"></i>
                           ${product.price}</td>
-                          <td><i class="fa-solid fa-indian-rupee-sign"></i>
+                          <td class="text-center">${product.quantity}</td>
+                          <td class="text-end"><i class="fa-solid fa-indian-rupee-sign"></i>
                           ${product.totalAmount}</td>
                         `;
             tbody.appendChild(row);

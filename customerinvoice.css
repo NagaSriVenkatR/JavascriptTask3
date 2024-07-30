@@ -1,15 +1,115 @@
-.parent{
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
-  margin-top: 50px !important;
+.invoice{
+  padding: 30px 0;
+  background-color: #fff6f6;
 }
-.customer{
-  text-align: left !important;
+
+.invoice-content{
+  font-family: 'Poppins', sans-serif;
+  color: #535353;
+  font-size: 14px;
 }
-.bill{
-  text-align: right !important;
+.invoice-info{
+  background-color: #fff;
+  position: relative;
 }
-.span{
-  color: green;
+.invoice-header{
+  height: 125px;
+  margin-bottom: 25px;
+  background:#f3f3f3 ;
+}
+.invoice-logo{
+  padding: 50px;
+  height: 25px !important;
+}
+.invoice-id{
+  border-radius: 75px 0 0 75px;
+  z-index: 0;
+  background-image:  linear-gradient(to bottom, #ff0000, #ff8100);;
+}
+.info{
+  max-width: 200px;
+  margin: 0 54px 0 auto;
+  padding: 34px 0;
+}
+.inv-header{
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 24px;
+}
+.invoice-top{
+  padding: 40px 50px 10px;
+  font-size: 15px;
+}
+.mb-30{
+  margin-bottom: 30px;
+}
+.mb-10{
+  margin-bottom: 10px;
+}
+.inv-title{
+  color: #ff3200;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+.active-color{
+  color: #ff3200 !important;
+}
+.name{
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #262525;
+  font-weight: 500;
+}
+.invoice-addr{
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 23px;
+}
+.invoice-number-inner{
+  max-width: 200px;
+  margin-left: auto;
+}
+.invoice-center{
+  padding: 0 50px 40px;
+}
+.table{
+  color: #535353;
+}
+.bg-active{
+  background-color: #f3f3f3;
+  color: #535353 !important;
+  text-transform: uppercase;
+}
+.invoice-bottom{
+  padding: 0 50px 10px;
+}
+.payment-method{
+  max-width: 200px;
+  margin-left: auto;
+  list-style: none;
+}
+.payment-method-list{
+  padding: 0;
+  list-style: none;
+}
+.contact-form{
+  padding: 30px 50px;
+  border-radius: 0 40px 40px 0;
+  background-image: linear-gradient(to bottom, #f3f3f3, #ffffff);
+}
+a{
+  text-decoration: none ;
+  color: #535353;
+  margin-right: 20px;
+  font-size: 14px;
+}
+.invoice-contact-form{
+  position: absolute;
+    bottom: 0px;
+    right: 0;
+    width: 30%;
+    height: 30px;
+    border-radius: 15px 0 0 15px;
+    z-index: 0;
+    background-image: linear-gradient(to bottom, #ff0000, #ff8100);
 }

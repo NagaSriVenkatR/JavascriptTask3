@@ -10,39 +10,153 @@
    <script src="https://kit.fontawesome.com/b1d7456c37.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="d-flex container"> 
-    <div class="row parent">
-      <h1>Invoice Bill</h1>
-      <div class="col-md-10 customer">
-        <p style="float: right;">Date: <span id="date"></span></p>
-        <p>Customer Name : <span id="customerName"></span></p>
-        <p>Email: <span id="email"></span></p>
-        <p>Mobile Number: <span id="mobileNo"></span></p>
-        <p>Address: <span id="address"></span></p>
-        
-        <p>Gender: <span id="gender"></span></p>
-      </div>
-      <div class="col-md-10">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-      <div class="col-md-10">
-        <div class="row bill" style="float: end;">
-        <p class="">Product Price : <span class="span" id="productPrice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
-        <p>GST(5%) : <span class="span"  id="gst"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
-        <p>Shop Discount(2%) : <span class="span"  id="discount"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span></p>
-        <p>Final Price : <span class="span"  id="finalPrice"><i class="fa-solid fa-indian-rupee-sign"></i>0.00</span> </p>
-      </div>
+  <div class="invoice invoice-content">
+    <div class="container">
+      <div class="row justify-content-center align-items-center ">
+        <div class="col-lg-9 col-sm-9">
+          <div class="invoice-inner clear-fix">
+            <div class="invoice-info clear-fix">
+              <div class="invoice-header">
+                <div class="row g-0">
+                  <div class="col-sm-6">
+                    <div class="invoice-logo">
+                      <div class="logo">
+                        <img src="assets/logo.png" alt="" height="25px">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 invoice-id" style="height: 140px;">
+                    <div class="info">
+                      <h1 class="text-white inv-header">Invoice</h1>
+                      <p class="text-white mb-1 ">
+                        Invoice Number
+                        <span class="ms-3">#45613</span>
+                      </p>
+                      <p class="text-white mb-0">
+                        Invoice-Date
+                        <span class="ms-3" id="date"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="invoice-top">
+                <div class="row">
+                  <div class="col-sm-6 ">
+                    <div class="invoice-number mb-30">
+                      <h4 class="inv-title">
+                        Invoice To
+                      </h4>
+                      <h2 class="name mb-10" id="customerName"></h2>
+                      <p class="invoice-addr">
+                        <span id="email"></span> <br>
+                        <span id="mobileNo"></span> <br>
+                        <span id="gender"></span> <br>
+                        <span id="address"></span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="invoice-number-inner">
+                      <h4 class="inv-title">Invoice From</h4>
+                      <h2 class="name mb-10">
+                        Animas Rocky
+                      </h2>
+                      <p class="invoice-addr">
+                        Apexo Inc <br> billing@apex.com <br> 169,Theragoria,Bangladesh
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="invoice-center">
+                <div class="table-responsive">
+                  <table class="table mb-0 table-striped invoice-table">
+                    <thead class="table-active bg-active">
+                      <tr class="tr">
+                        <th>S.No</th>
+                        <th class="p10 text-start">Item Description</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-end">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">SubTotal</td>
+                        <td class="text-end" id="productPrice"></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">GST(5%)</td>
+                        <td class="text-end" id="gst"></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">Discount(2%)</td>
+                        <td class="text-end text-danger" id="discount"></td>                      
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center active-color">Final Price</td>
+                        <td class="text-end active-color" id="finalPrice"></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+              <div class="invoice-bottom">
+                <div class="row">
+                  <div class="col-lg-6 col-md-8 col-sm-7">
+                    <div class="mb-30 dear-client">
+                      <h3 class="inv-title">Terms & Conditions</h3>
+                      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laudantium dolor veniam ex ipsam! Quia ab alias harum laboriosam, perferendis dicta provident.</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-8 col-sm-7">
+                    <div class="mb-30 payment-method">
+                      <h3 class="inv-title">Payement Method</h3>
+                      <ul class="payment-method-list">
+                        <li><strong>Account No:</strong> 00 123 647 847</li>
+                        <li><strong>Account Name:</strong> John Doe</li>
+                        <li><strong>Branch Name:</strong> xyz</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="invoice-contact clear-fix">
+                <div class="row g-0">
+                  <div class="col-lg-9 col-md-11 col-sm-12">
+                    <div class="contact-form">
+                      <a href="#">
+                        <i class="fa fa-phone"></i> 00 123 647 840
+                      </a>
+                      <a href="#">
+                        <i class="fa fa-envelope"></i>  info@themevessel.com
+                      </a>
+                      <a href="">
+                        <i class="fa fa-map-marker"></i>  169 Teroghoria, Bangladesh
+                      </a>
+                      <div class="invoice-contact-form"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

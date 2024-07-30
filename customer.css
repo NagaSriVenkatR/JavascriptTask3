@@ -1,26 +1,33 @@
 body{
   font-family: Amazon Ember;
+  background-color: #f3f3f3;
 
 }
 .row{
   justify-content: space-around !important;
   align-items: center !important;
-  padding: 20px !important;
- 
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  
 }
 
 h1{
- 
+  background-color:#b5a681;;
+  margin-bottom: 30px;
   font-weight: bold;
+  height: 70px;
+  color: white;
+  text-align: center;
+  padding-top: 10px;
 }
 h5{
   font-weight: bold;
   
 }
 form{
-  border-radius: 15px !important;
-  background-color: lightgoldenrodyellow !important;
-  box-shadow: 1px 1px 10px black !important;
+  font-size: 18px;
+  
+  padding-top: 30px;
 }
 
 .form-control{
@@ -32,7 +39,7 @@ form{
   
  }
 .btn-primary{
-  background-color: lightblue !important;
+  background-color: #cda6c0;
   float: right;
 }
 
@@ -44,8 +51,11 @@ form{
   height: 20px !important;
   color: red;
 }
-span{
-  color: green;
+.table{
+  overflow-y: auto !important;
+}
+.spaner{
+  color: green !important;
 }
 .bill{
   justify-content: end !important;
