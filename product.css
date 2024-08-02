@@ -1,17 +1,34 @@
-span{
-  color: red;
+.parent{
+  font-family: Roboto;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 30px !important;
+  max-width: 40cm !important;
 }
-.col-md-4{
-  margin-top: 100px;
-  background-color: lightsteelblue !important;
-  padding: 40px !important;
-  border-radius: 10px !important;
-  box-shadow: 5px 5px 20px slateblue;
-}
-.form-floating{
-  margin-bottom: 20px !important;
+.general{
+  background-color: #F9F9F9;
+  padding: 25px;
+  border-radius: 15px;
 }
 .form-control{
+  background-color: #EEEEEE !important;
   box-shadow: none !important;
+  color: #36413E !important;
 }
-
+.input-group-text{
+  background-color: #EEEEEE !important;
+}
+.span{
+  display: inline-block !important;
+  color: red;
+  height: 20px !important;
+}
+.pricing{
+  justify-content: space-between !important;
+}
+.btn-success{
+  background-color: #9FEEA7 !important;
+  color: black !important;
+  border-radius: 35px !important;
+  padding: 10px 20px !important;
+}

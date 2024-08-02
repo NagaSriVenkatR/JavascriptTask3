@@ -6,15 +6,23 @@ function myfunction(event) {
   let productError = document.getElementById('producterror');
   let qtyError = document.getElementById('qtyerror');
   let priceError = document.getElementById('priceerror');
+  
   if(productName === ""){
     productError.innerHTML="Product name is required";
+  }else{
+    productError.innerHTML = "";
   }
   if(productQuantity === ""){
-    qtyError.innerHTML="Product quantiity is required";
+    qtyError.innerHTML="quantiity is required";
+  }else{
+    qtyError.innerHTML = "";
+    
   }
   if(Price === ""){
     priceError.innerHTML = "price is required";
     return;
+  }else{
+    priceError.innerHTML = "";
   }
   let obj = {
     productName:productName,

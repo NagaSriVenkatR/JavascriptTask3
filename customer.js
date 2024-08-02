@@ -150,16 +150,16 @@ function validRow(row) {
   producterror.innerHTML = "";
   quantiityerror.innerHTML = "";
   if (productName=="") {
-    producterror.textContent = "Please select atleast 1 product";
+    producterror.innerHTML = "Please select atleast 1 product";
   }else{
-    producterror.textContent="";
-    return;
+    producterror.innerHTML=" ";
+    
   }
   if (quantity == "" || quantity <= 0) {
-    quantiityerror.textContent = "Please select alteast 1 quantity";
+    quantiityerror.innerHTML = "Please select alteast 1 quantity";
     return;
   }else{
-    quantiityerror.textContent = "";
+    quantiityerror.innerHTML = " "; 
   }
 }
 function fetchProductDetails(event) {
@@ -265,10 +265,19 @@ function cancel() {
   document.getElementById("tbody").innerHTML = "";
   updateBill();
 }
-function editData(id) {
-
-  console.log(`Edit product with ID: ${id}`);
-}
 function deleteData(id) {
-  console.log(`Delete product with ID: ${id}`);
+  const row = document.querySelector(`#tbody tr:nth-child(${id})`);
+  if(row){
+    row.remove();
+    updateBill();
+  }
+  const rows = document.querySelectorAll("#tbody tr");
+  rows.forEach((row, index) => {
+    row.dataset.id = index + 1;
+    row.querySelector("td:first-child").textContent = index + 1;
+    row
+      .querySelector("button.btn-danger")
+      .setAttribute("onclick", `deleteData(${index + 1})`);
+  });
+  counter = rows.length + 1;
 }
