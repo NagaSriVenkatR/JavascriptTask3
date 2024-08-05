@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("addtocart").addEventListener("click", addtocart);
   document.getElementById("clearcart").addEventListener("click", clearcart);
 });
-let valid = true;
 let products = [];
 function fetchProducts() {
   return fetch("http://localhost:8080/api/product/get/All/product")
@@ -38,12 +37,16 @@ function myfunction(event) {
   let emailPattern =
     /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-zA-Z]+).([a-zA-Z]{2,20})$/;
   let phonenumberPattern = /^([0-9]{10})$/;
+  let valid = true;
   if (customerName === "") {
     nameerr.innerHTML = "Name is required";
     valid = false;
   } else if (!namePattern.test(customerName)) {
     nameerr.innerHTML = "";
     valid = false;
+  }else{
+    nameerr.innerHTML = "";
+    
   }
   if (email === "") {
     emailerr.innerHTML = "Email is required";
@@ -53,18 +56,21 @@ function myfunction(event) {
     valid = false;
   } else {
     emailerr.innerHTML = "";
+   
   }
   if (address === "") {
     addresserr.innerHTML = "Address required";
     valid = false;
   } else {
     addresserr.innerHTML = "";
+    
   }
   if (date === "") {
     dateerr.innerHTML = "Date is required";
     valid = false;
   } else {
     dateerr.innerHTML = "";
+    
   }
   if (mobileNo === "") {
     phonenumbererr.innerHTML = "Phonenumber required";
@@ -74,14 +80,16 @@ function myfunction(event) {
     valid = false;
   } else {
     phonenumbererr.innerHTML = "";
+    
   }
   if (!gender) {
     gendererr.innerHTML = "Gender is required";
     valid = false;
   } else {
     gendererr.innerHTML = "";
+   
   }
-  if (customerName && email && address && date && mobileNo && gender) {
+  if (valid = true) {
     addToTable({
       customerName,
       email,
@@ -252,8 +260,14 @@ function addtocart() {
       document.getElementById("myform").reset();
       cleartable();
     })
-    .catch((Error) => console.error("Error", Error));
+    .catch((error) => {
+       console.error("Fetch Error:", error);
+        const errorMessageElement = document.getElementsByClassName("error-message");
+        errorMessageElement.textContent = error.message;
+    });
 }
+
+
 function cleartable() {
   const tbody = document.getElementById('tbody');
   if(tbody){
