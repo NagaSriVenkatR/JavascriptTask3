@@ -8,9 +8,27 @@ body{
   align-items: center !important;
   padding-right: 0 !important;
   padding-left: 0 !important;
-  
-}
 
+}
+.parent{
+  max-width: 40cm !important;
+}
+.mandatory{
+  color: red;
+}
+.err-api{
+  background-color: red;
+  color: white;
+  text-align: center !important;
+  max-width: fit-content;
+  font-size: 18px;
+
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+.err-api:empty{
+  display: none;
+}
 h1{
   background-color:#b5a681;;
   margin-bottom: 30px;

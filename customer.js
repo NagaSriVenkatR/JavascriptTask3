@@ -12,11 +12,11 @@ function fetchProducts() {
       return response.json();
     })
     .then((result) => {
-      products = result.data; 
+      products = result.data;
     })
     .catch((error) => {
       console.error("Error fetching products:", error);
-      products = []; 
+      products = [];
     });
 }
 function myfunction(event) {
@@ -33,7 +33,7 @@ function myfunction(event) {
   let dateerr = document.getElementById("dateerror");
   let phonenumbererr = document.getElementById("phonenumbererror");
   let gendererr = document.getElementById("gendererror");
-  let namePattern = /^([a-zA-Z]+) ([a-zA-Z]{3})$/;
+  let namePattern = /^[A-Za-z]+ [A-Za-z]+$/;
   let emailPattern =
     /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-zA-Z]+).([a-zA-Z]{2,20})$/;
   let phonenumberPattern = /^([0-9]{10})$/;
@@ -42,12 +42,12 @@ function myfunction(event) {
     nameerr.innerHTML = "Name is required";
     valid = false;
   } else if (!namePattern.test(customerName)) {
-    nameerr.innerHTML = "";
+    nameerr.innerHTML = "Name should have first name and last name";
     valid = false;
-  }else{
+  } else {
     nameerr.innerHTML = "";
-    
   }
+
   if (email === "") {
     emailerr.innerHTML = "Email is required";
     valid = false;
@@ -56,21 +56,12 @@ function myfunction(event) {
     valid = false;
   } else {
     emailerr.innerHTML = "";
-   
   }
-  if (address === "") {
-    addresserr.innerHTML = "Address required";
+  if(!gender){
+    gendererr.innerHTML = "gender is required";
     valid = false;
-  } else {
-    addresserr.innerHTML = "";
-    
-  }
-  if (date === "") {
-    dateerr.innerHTML = "Date is required";
-    valid = false;
-  } else {
-    dateerr.innerHTML = "";
-    
+  }else{
+    gendererr.innerHTML="";
   }
   if (mobileNo === "") {
     phonenumbererr.innerHTML = "Phonenumber required";
@@ -80,16 +71,18 @@ function myfunction(event) {
     valid = false;
   } else {
     phonenumbererr.innerHTML = "";
-    
   }
-  if (!gender) {
-    gendererr.innerHTML = "Gender is required";
-    valid = false;
-  } else {
-    gendererr.innerHTML = "";
-   
-  }
-  if (valid = true) {
+ 
+  console.log({
+    customerName,
+    email,
+    address,
+    date,
+    mobileNo,
+    gender,
+    valid,
+  });
+  if (valid) {
     addToTable({
       customerName,
       email,
@@ -105,9 +98,9 @@ function myfunction(event) {
 let counter = 1;
 function addToTable(data) {
   let tbody = document.getElementById("tbody");
- fetchProducts().then(() => {
-   const row = document.createElement("tr");
-   row.innerHTML = `
+  fetchProducts().then(() => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
         <td>${counter++}</td>
         <td colspan="2">
           <select name="productname" class="form-select select">
@@ -137,57 +130,67 @@ function addToTable(data) {
           })">Delete</button>
         </td>
       `;
-   tbody.appendChild(row);
-   row
-     .querySelector('select[name="productname"]')
-     .addEventListener("change", fetchProductDetails);
-   row
-     .querySelector('input[type="number"]')
-     .addEventListener("input", fetchProductDetails);
-   validRow(row);
-   console.log("Row added:", row.innerHTML);
- });
+    tbody.appendChild(row);
+    row
+      .querySelector('select[name="productname"]')
+      .addEventListener("change", fetchProductDetails);
+    row
+      .querySelector('input[type="number"]')
+      .addEventListener("input", fetchProductDetails);
+    validRow(row);
+    console.log("Row added:", row.innerHTML);
+    row
+      .querySelector('select[name="productname"]')
+      .addEventListener("change", () => validRow(row));
+    row
+      .querySelector('input[type="number"]')
+      .addEventListener("input", () => validRow(row));
+  });
 }
 function validRow(row) {
   let productSelect = row.querySelector('select[name="productname"]');
   let quantiityInput = row.querySelector('input[type = "number" ]');
   let productName = productSelect.value;
   let quantity = quantiityInput.value;
-  let producterror = document.getElementById("producterror");
-  let quantiityerror = document.getElementById("quantityerror");
+  let producterror = row.querySelector("#producterror");
+  let quantiityerror = row.querySelector("#quantityerror");
   producterror.innerHTML = "";
   quantiityerror.innerHTML = "";
-  if (productName=="") {
+  let isValid = true;
+  if (productName == "") {
     producterror.innerHTML = "Please select atleast 1 product";
-  }else{
-    producterror.innerHTML=" ";
-    
+    isValid = false;
+  } else {
+    producterror.innerHTML = " ";
   }
   if (quantity == "" || quantity <= 0) {
     quantiityerror.innerHTML = "Please select alteast 1 quantity";
-    return;
-  }else{
-    quantiityerror.innerHTML = " "; 
+    isValid = false;
+  } else {
+    quantiityerror.innerHTML = " ";
   }
+  return isValid;
 }
 function fetchProductDetails(event) {
   const row = event.target.closest("tr");
   const productName = row.querySelector("select[name='productname']").value;
   const quantity = row.querySelector('input[type="number"]').value || 0;
-  fetchProducts().then(() => {
-    const product = products.find(p => p.productName === productName);
-    if (product) {
-      const price = product.price;
-      const total = price * quantity;
-      row.querySelector("#price").textContent = price;
-      row.querySelector("#total").textContent = total;
-      updateBill();
-    } else {
-      console.error("Product not found:", productName);
-    }
-  }).catch(error => {
-    console.error("Error fetching products in fetchProductDetails:", error);
-  });
+  fetchProducts()
+    .then(() => {
+      const product = products.find((p) => p.productName === productName);
+      if (product) {
+        const price = product.price;
+        const total = price * quantity;
+        row.querySelector("#price").textContent = price;
+        row.querySelector("#total").textContent = total;
+        updateBill();
+      } else {
+        console.error("Product not found:", productName);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching products in fetchProductDetails:", error);
+    });
 }
 function updateBill() {
   const rows = document.querySelectorAll("#tbody tr");
@@ -204,16 +207,24 @@ function updateBill() {
   const shopDiscountElement = document.querySelector("#discount");
   const finalPriceElement = document.querySelector("#finalPrice");
   if (productPriceElement) {
-    productPriceElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${productPrice.toFixed(2)}`;
+    productPriceElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${productPrice.toFixed(
+      2
+    )}`;
   }
   if (gstElement) {
-    gstElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${gst.toFixed(2)}`;
+    gstElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${gst.toFixed(
+      2
+    )}`;
   }
   if (shopDiscountElement) {
-    shopDiscountElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${shopDiscount.toFixed(2)}`;
+    shopDiscountElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${shopDiscount.toFixed(
+      2
+    )}`;
   }
   if (finalPriceElement) {
-    finalPriceElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${finalPrice.toFixed(2)}`;
+    finalPriceElement.innerHTML = `<i class="fa-solid fa-indian-rupee-sign"></i>${finalPrice.toFixed(
+      2
+    )}`;
   }
 }
 let tableData = [];
@@ -246,12 +257,13 @@ function addtocart() {
     body: JSON.stringify(customerData),
   })
     .then((response) => {
-      if (!response.ok) {
-        return response.json().then((data) => {
-          throw new Error(
-            `API Error: ${data.error.code} - ${data.error.reason}`
-          );
-        });
+      if (response.ok) {
+        return response.json();
+      } else {
+        let error = response;
+        error.info = new Error(`<i class="fa-solid fa-triangle-exclamation"></i> Please recheck the email , mobile number and name`);
+
+        throw error;
       }
     })
     .then((data) => {
@@ -261,18 +273,17 @@ function addtocart() {
       cleartable();
     })
     .catch((error) => {
-       console.error("Fetch Error:", error);
-        const errorMessageElement = document.getElementsByClassName("error-message");
-        errorMessageElement.textContent = error.message;
+      console.log(error);
+      const errorMessageElement = document.getElementById("err-api");
+      errorMessageElement.innerHTML = error.info.message;
     });
 }
 
-
 function cleartable() {
-  const tbody = document.getElementById('tbody');
-  if(tbody){
+  const tbody = document.getElementById("tbody");
+  if (tbody) {
     tbody.innerHTML = "";
-  } 
+  }
   updateBill();
 }
 function cancel() {
@@ -281,7 +292,7 @@ function cancel() {
 }
 function deleteData(id) {
   const row = document.querySelector(`#tbody tr:nth-child(${id})`);
-  if(row){
+  if (row) {
     row.remove();
     updateBill();
   }
