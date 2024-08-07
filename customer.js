@@ -72,7 +72,6 @@ function myfunction(event) {
   } else {
     phonenumbererr.innerHTML = "";
   }
- 
   console.log({
     customerName,
     email,
@@ -98,6 +97,13 @@ function myfunction(event) {
 let counter = 1;
 function addToTable(data) {
   let tbody = document.getElementById("tbody");
+  const lastRow = tbody.querySelector("tr:last-child"); 
+  if (lastRow && !validRow(lastRow)) {
+    console.log(
+      "Last row validation failed. Please correct it before adding a new row."
+    );
+    return;
+  }
   fetchProducts().then(() => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -137,14 +143,7 @@ function addToTable(data) {
     row
       .querySelector('input[type="number"]')
       .addEventListener("input", fetchProductDetails);
-    validRow(row);
-    console.log("Row added:", row.innerHTML);
-    row
-      .querySelector('select[name="productname"]')
-      .addEventListener("change", () => validRow(row));
-    row
-      .querySelector('input[type="number"]')
-      .addEventListener("input", () => validRow(row));
+    console.log("Row added:", row.innerHTML);    
   });
 }
 function validRow(row) {
@@ -157,13 +156,13 @@ function validRow(row) {
   producterror.innerHTML = "";
   quantiityerror.innerHTML = "";
   let isValid = true;
-  if (productName == "") {
+  if (productName === "") {
     producterror.innerHTML = "Please select atleast 1 product";
     isValid = false;
   } else {
     producterror.innerHTML = " ";
   }
-  if (quantity == "" || quantity <= 0) {
+  if (quantity === "" || quantity <= 0) {
     quantiityerror.innerHTML = "Please select alteast 1 quantity";
     isValid = false;
   } else {
@@ -230,66 +229,178 @@ function updateBill() {
 let tableData = [];
 function addtocart() {
   const rows = document.querySelectorAll("#tbody tr");
+  tableData = []; // Clear tableData before adding new entries
+
+  let formValid = true;
+  let rowValid = true;
+
+  // Validate form fields
+  const customerName = document.getElementById("name").value;
+  const email = document.getElementById("Email").value;
+  const address = document.getElementById("Address").value;
+  const date = document.getElementById("Date").value;
+  const mobileNo = document.getElementById("phonenumber").value;
+  const gender = document.getElementById("Gender").value;
+  const nameerr = document.getElementById("nameerror");
+  const emailerr = document.getElementById("emailerror");
+  const addresserr = document.getElementById("addresserror");
+  const dateerr = document.getElementById("dateerror");
+  const phonenumbererr = document.getElementById("phonenumbererror");
+  const gendererr = document.getElementById("gendererror");
+  const namePattern = /^[A-Za-z]+ [A-Za-z]+$/;
+  const emailPattern =
+    /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-zA-Z]+).([a-zA-Z]{2,20})$/;
+  const phonenumberPattern = /^([0-9]{10})$/;
+
+  if (customerName === "") {
+    nameerr.innerHTML = "Name is required";
+    formValid = false;
+  } else if (!namePattern.test(customerName)) {
+    nameerr.innerHTML = "Name should have first name and last name";
+    formValid = false;
+  } else {
+    nameerr.innerHTML = "";
+  }
+
+  if (email === "") {
+    emailerr.innerHTML = "Email is required";
+    formValid = false;
+  } else if (!emailPattern.test(email)) {
+    emailerr.innerHTML = "Invalid email format";
+    formValid = false;
+  } else {
+    emailerr.innerHTML = "";
+  }
+
+  if (!gender) {
+    gendererr.innerHTML = "Gender is required";
+    formValid = false;
+  } else {
+    gendererr.innerHTML = "";
+  }
+
+  if (mobileNo === "") {
+    phonenumbererr.innerHTML = "Phonenumber is required";
+    formValid = false;
+  } else if (!phonenumberPattern.test(mobileNo)) {
+    phonenumbererr.innerHTML = "Invalid Phonenumber";
+    formValid = false;
+  } else {
+    phonenumbererr.innerHTML = "";
+  }
+
+  // Validate each row
   rows.forEach((row) => {
-    const productName = row.querySelector('select[name="productname"]').value;
-    const quantity = row.querySelector('input[type= "number"]').value;
-    const price = row.querySelector("#price").textContent;
-    const total = row.querySelector("#total").textContent;
-    if (productName && quantity) {
-      tableData.push({ productName, quantity, price, total });
+    if (!validRow(row)) {
+      rowValid = false;
+    } else {
+      const productName = row.querySelector('select[name="productname"]').value;
+      const quantity = row.querySelector('input[type="number"]').value;
+      const price = row.querySelector("#price").textContent;
+      const total = row.querySelector("#total").textContent;
+
+      if (productName && quantity && quantity > 0) {
+        tableData.push({ productName, quantity, price, total });
+      }
     }
   });
-  const customerData = {
-    customerName: document.getElementById("name").value,
-    email: document.getElementById("Email").value,
-    mobileNo: document.getElementById("phonenumber").value,
-    address: document.getElementById("Address").value,
-    date: document.getElementById("Date").value,
-    gender: document.getElementById("Gender").value,
-    customerProduct: tableData,
-  };
-  console.log(customerData);
-  fetch("http://localhost:8080/api/invoice/buy/product", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(customerData),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        let error = response;
-        error.info = new Error(`<i class="fa-solid fa-triangle-exclamation"></i> Please recheck the email , mobile number and name`);
 
-        throw error;
-      }
+  if (formValid && rowValid) {
+    const customerData = {
+      customerName,
+      email,
+      address,
+      date,
+      mobileNo,
+      gender,
+      customerProduct: tableData,
+    };
+
+    console.log(customerData);
+
+    fetch("http://localhost:8080/api/invoice/buy/product", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(customerData),
     })
-    .then((data) => {
-      console.log(data);
-      window.location.href = "customertable.html";
-      document.getElementById("myform").reset();
-      cleartable();
-    })
-    .catch((error) => {
-      console.log(error);
-      const errorMessageElement = document.getElementById("err-api");
-      errorMessageElement.innerHTML = error.info.message;
-    });
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          let error = response;
+          error.info = new Error(
+            `<i class="fa-solid fa-triangle-exclamation"></i> Please recheck the email, mobile number, and name`
+          );
+          throw error;
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        window.location.href = "customertable.html";
+        document.getElementById("myform").reset();
+        cleartable();
+      })
+      .catch((error) => {
+        console.log(error);
+        const errorMessageElement = document.getElementById("err-api");
+        errorMessageElement.innerHTML = error.info.message;
+      });
+  } else {
+    console.log(
+      "Validation failed. Please correct all errors before adding to cart."
+    );
+  }
 }
 
+
+// function cleartable() {
+//   const tbody = document.getElementById("tbody");
+//   if (tbody) {
+//     tbody.innerHTML = "";
+//   }
+//   updateBill();
+// }
 function cleartable() {
   const tbody = document.getElementById("tbody");
   if (tbody) {
-    tbody.innerHTML = "";
+    tbody.innerHTML = ""; // Remove all rows
   }
+
+  // Reset the billing summary
   updateBill();
 }
-function cancel() {
-  document.getElementById("tbody").innerHTML = "";
-  updateBill();
+function clearcart() {
+  // Reset the form fields
+  document.getElementById("myform").reset();
+  clearErrorMessages();
+  // Clear the table rows
+  cleartable();
+  window.location.reload();
 }
+function clearErrorMessages() {
+  const errorElements = [
+    "nameerror",
+    "emailerror",
+    "addresserror",
+    "dateerror",
+    "phonenumbererror",
+    "gendererror",
+    "producterror",
+    "quantityerror",
+    "err-api",
+  ];
+
+  errorElements.forEach((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.innerHTML = "";
+    }
+  });
+}
+
+
 function deleteData(id) {
   const row = document.querySelector(`#tbody tr:nth-child(${id})`);
   if (row) {
