@@ -33,16 +33,12 @@ function myfunction(event) {
   let dateerr = document.getElementById("dateerror");
   let phonenumbererr = document.getElementById("phonenumbererror");
   let gendererr = document.getElementById("gendererror");
-  let namePattern = /^[A-Za-z]+ [A-Za-z]+$/;
   let emailPattern =
     /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-zA-Z]+).([a-zA-Z]{2,20})$/;
   let phonenumberPattern = /^([0-9]{10})$/;
   let valid = true;
   if (customerName === "") {
     nameerr.innerHTML = "Name is required";
-    valid = false;
-  } else if (!namePattern.test(customerName)) {
-    nameerr.innerHTML = "Name should have first name and last name";
     valid = false;
   } else {
     nameerr.innerHTML = "";
@@ -58,19 +54,25 @@ function myfunction(event) {
     emailerr.innerHTML = "";
   }
   if(!gender){
-    gendererr.innerHTML = "gender is required";
+    gendererr.innerHTML = "Gender is required";
     valid = false;
   }else{
     gendererr.innerHTML="";
   }
   if (mobileNo === "") {
-    phonenumbererr.innerHTML = "Phonenumber required";
+    phonenumbererr.innerHTML = "Phonenumber is required";
     valid = false;
   } else if (!phonenumberPattern.test(mobileNo)) {
     phonenumbererr.innerHTML = "Invalid Phonenumber";
     valid = false;
   } else {
     phonenumbererr.innerHTML = "";
+  }
+  if(address === ""){
+    addresserr.innerHTML ="Address is Required";
+    valid = false;
+  }else{
+    addresserr.innerHTML="";
   }
   console.log({
     customerName,
@@ -247,7 +249,7 @@ function addtocart() {
   const dateerr = document.getElementById("dateerror");
   const phonenumbererr = document.getElementById("phonenumbererror");
   const gendererr = document.getElementById("gendererror");
-  const namePattern = /^[A-Za-z]+ [A-Za-z]+$/;
+  const namePattern = /^[A-Za-z]$/;
   const emailPattern =
     /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-zA-Z]+).([a-zA-Z]{2,20})$/;
   const phonenumberPattern = /^([0-9]{10})$/;
@@ -255,10 +257,7 @@ function addtocart() {
   if (customerName === "") {
     nameerr.innerHTML = "Name is required";
     formValid = false;
-  } else if (!namePattern.test(customerName)) {
-    nameerr.innerHTML = "Name should have first name and last name";
-    formValid = false;
-  } else {
+  }  else {
     nameerr.innerHTML = "";
   }
 
@@ -287,6 +286,12 @@ function addtocart() {
     formValid = false;
   } else {
     phonenumbererr.innerHTML = "";
+  }
+  if (address === "") {
+    addresserr.innerHTML = "Address is Required";
+    valid = false;
+  } else {
+    addresserr.innerHTML = "";
   }
 
   // Validate each row
@@ -329,11 +334,14 @@ function addtocart() {
         if (response.ok) {
           return response.json();
         } else {
-          let error = response;
-          error.info = new Error(
-            `<i class="fa-solid fa-triangle-exclamation"></i> Please recheck the email, mobile number, and name`
-          );
-          throw error;
+          return response.json().then((data) => {
+            // Handle specific product errors
+            if (data.error && data.error.reason) {
+              throw new Error(data.error.reason);
+            } else {
+              throw new Error("An unexpected error occurred.");
+            }
+          });
         }
       })
       .then((data) => {
@@ -343,15 +351,15 @@ function addtocart() {
         cleartable();
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         const errorMessageElement = document.getElementById("err-api");
-        errorMessageElement.innerHTML = error.info.message;
+        errorMessageElement.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${error.message}`;
       });
   } else {
     console.log(
       "Validation failed. Please correct all errors before adding to cart."
     );
-  }
+  }  
 }
 
 
@@ -362,6 +370,139 @@ function addtocart() {
 //   }
 //   updateBill();
 // }
+// function addtocart() {
+//   const rows = document.querySelectorAll("#tbody tr");
+//   tableData = []; // Clear tableData before adding new entries
+
+//   let formValid = true;
+//   let rowValid = true;
+
+//   // Validate form fields
+//   const customerName = document.getElementById("name").value;
+//   const email = document.getElementById("Email").value;
+//   const address = document.getElementById("Address").value;
+//   const date = document.getElementById("Date").value;
+//   const mobileNo = document.getElementById("phonenumber").value;
+//   const gender = document.getElementById("Gender").value;
+//   const nameerr = document.getElementById("nameerror");
+//   const emailerr = document.getElementById("emailerror");
+//   const addresserr = document.getElementById("addresserror");
+//   const dateerr = document.getElementById("dateerror");
+//   const phonenumbererr = document.getElementById("phonenumbererror");
+//   const gendererr = document.getElementById("gendererror");
+//   const namePattern = /^[A-Za-z ]+$/; // Corrected regex for name validation
+//   const emailPattern =
+//     /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-zA-Z]+).([a-zA-Z]{2,20})$/;
+//   const phonenumberPattern = /^([0-9]{10})$/;
+
+//   if (customerName === "") {
+//     nameerr.innerHTML = "Name is required";
+//     formValid = false;
+//   } else {
+//     nameerr.innerHTML = "";
+//   }
+
+//   if (email === "") {
+//     emailerr.innerHTML = "Email is required";
+//     formValid = false;
+//   } else if (!emailPattern.test(email)) {
+//     emailerr.innerHTML = "Invalid email format";
+//     formValid = false;
+//   } else {
+//     emailerr.innerHTML = "";
+//   }
+
+//   if (!gender) {
+//     gendererr.innerHTML = "Gender is required";
+//     formValid = false;
+//   } else {
+//     gendererr.innerHTML = "";
+//   }
+
+//   if (mobileNo === "") {
+//     phonenumbererr.innerHTML = "Phonenumber is required";
+//     formValid = false;
+//   } else if (!phonenumberPattern.test(mobileNo)) {
+//     phonenumbererr.innerHTML = "Invalid Phonenumber";
+//     formValid = false;
+//   } else {
+//     phonenumbererr.innerHTML = "";
+//   }
+//   if (address === "") {
+//     addresserr.innerHTML = "Address is Required";
+//     formValid = false;
+//   } else {
+//     addresserr.innerHTML = "";
+//   }
+
+//   // Validate each row
+//   rows.forEach((row) => {
+//     if (!validRow(row)) {
+//       rowValid = false;
+//     } else {
+//       const productName = row.querySelector('select[name="productname"]').value;
+//       const quantity = row.querySelector('input[type="number"]').value;
+//       const price = row.querySelector("#price").textContent;
+//       const total = row.querySelector("#total").textContent;
+
+//       if (productName && quantity && quantity > 0) {
+//         tableData.push({ productName, quantity, price, total });
+//       }
+//     }
+//   });
+
+//   if (formValid && rowValid) {
+//     const customerData = {
+//       customerName,
+//       email,
+//       address,
+//       date,
+//       mobileNo,
+//       gender,
+//       customerProduct: tableData,
+//     };
+
+//     console.log(customerData);
+
+//     fetch("http://localhost:8080/api/invoice/buy/product", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(customerData),
+//     })
+//       .then((response) => {
+//         if (response.ok) {
+//           return response.json();
+//         } else {
+//           return response.json().then((data) => {
+//             // Handle specific product errors
+//             if (data.error && data.error.reason) {
+//               throw new Error(data.error.reason);
+//             } else {
+//               throw new Error("An unexpected error occurred.");
+//             }
+//           });
+//         }
+//       })
+//       .then((data) => {
+//         console.log(data);
+//         window.location.href = "customertable.html";
+//         document.getElementById("myform").reset();
+//         cleartable();
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         const errorMessageElement = document.getElementById("err-api");
+//         errorMessageElement.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${error.message}`;
+//       });
+//   } else {
+//     console.log(
+//       "Validation failed. Please correct all errors before adding to cart."
+//     );
+//   }
+// }
+
 function cleartable() {
   const tbody = document.getElementById("tbody");
   if (tbody) {

@@ -8,6 +8,9 @@ function tableAdd() {
   })
   .then((response)=>{
     const data = response.data;
+    // Sort data by date to ensure newly added data is at the bottom
+    data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
     let table = "";
     for(let i=0;i<data.length;i++){
       let customer = data[i];
